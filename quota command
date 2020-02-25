@@ -1,0 +1,14 @@
+  68  kubectl create namespace quota-mem-cpu-example
+   69  vi quota.yaml
+   70  kubectl apply -f quota.yaml --namespace=quota-mem-cpu-example
+   71  kubectl describe ns
+   72  clear
+   73  kubectl get ns | more
+   74  kubectl describe ns | more
+   75  clear
+   76  vi quota1.yaml
+   77  kubectl apply -f quota1.yaml --namespace=quota-mem-cpu-example
+   
+   
+   82  kubectl get resourcequota mem-cpu-demo --namespace=quota-mem-cpu-example --output=yaml
+   83  history
