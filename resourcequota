@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: mem-cpu-demo
+spec:
+  hard:
+    request.cpu: "1" # inside this namespace request total for all container not exceed 1cpu
+    request.memory: 1Gi 
+    limits.cpu: "2"
+    limits.memory: 2Gi
