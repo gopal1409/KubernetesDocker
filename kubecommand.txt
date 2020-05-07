@@ -1,0 +1,691 @@
+    1  yum update
+    2  kill pid 11472
+    3  kill pid:11472
+    4  kill 
+    5  kill -l
+    6  yum update
+    7  yum update
+    8  init 0
+    9  exit
+   10  yum install -y yum-utils
+   11  yum-config-manager     --add-repo     https://download.docker.com/linux/centos/docker-ce.repo
+   12  config-manager --disable docker-ce-nightly
+   13  yum-config-manager --disable docker-ce-nightly
+   14  yum install docker-ce docker-ce-cli containerd.io
+   15  history
+   16  systemctl start docker
+   17  systemctl enable docker
+   18  service docker start
+   19  chkconfig docker on
+   20  clear
+   21  history
+   22  docker --version
+   23  docker info
+   24  ipconfig
+   25  ifconfig
+   26  clear
+   27  docker
+   28  docker container run --publish 80:80 nginx
+   29  docker container run --publish 80:80 httpd
+   30  docker container run --publish 80:80 --detach httpd
+   31  docker container ls
+   32  docker container ls -a
+   33  docker container run --publish 80:80 --detach httpd
+   34  docker container run --publish 81:80 --detach httpd
+   35  docker container run --publish 82:80 --detach httpd
+   36  docker container ls
+   37  docker container run  --detach httpd
+   38  docker container ls
+   39  docker container run -p 83:80 -d httpd
+   40  docker container ls
+   41  docker container run -p 83:80 -d --name webhost httpd
+   42  docker container run -p 84:80 -d --name webhost1 httpd
+   43  docker ps
+   44  docker images
+   45  curl localhost:81
+   46  docker container logs f2b27478fd9d
+   47  docker container logs webhost1
+   48  top
+   49  lear
+   50  clear
+   51  docker container ls
+   52  docker container top webhost1
+   53  docker run --name mogo -d mongo
+   54  docker ps
+   55  docker top mongo
+   56  docker top mogo
+   57  ps aux
+   58  docker ps
+   59  docker run --name mogo -d mongo
+   60  docker stop mogo
+   61  docker ps
+   62  docker start mogo
+   63  docker rm mogo
+   64  docker rm mogo --force
+   65  docker rm 6ed6 aff23 20e0
+   66  docker rm 6ed6 aff23 20e0 --force
+   67  history
+   68  docker images
+   69  docker rmi mongo
+   70  docker container run -d -p 3306:3306 --name db -e MYSQL_RANDOM_ROOT_PASSWORD=yes mysql
+   71  docker ps
+   72  docker container logs db
+   73  docker container exec -it db bash
+   74  clear
+   75  docker ps
+   76  docker container exec -it db bash
+   77  docker container log mysql
+   78  docker container log db
+   79  docker container logs db
+   80  docker container exec -it db bash
+   81  clear
+   82  docker container inspect db1
+   83  docker container inspect db
+   84  docker container inspect --format '{{ .NetworkSettings.IPAddress}} db
+   85  docker container inspect --format '{{ .NetworkSettings.IPAddress }}' db
+   86  docker container inspect --format '{{ .NetworkSettings.Gateway }}' db
+   87  docker container inspect --format '{{ .Config.ExposedPort }}' db
+   88  docker container stats
+   89  docker network ls
+   90  docker network inspect bridge
+   91  docker network inspect host
+   92  clear
+   93  docker container run -d --network host --name host-apache httpd
+   94  docker ps
+   95  docker ps -a
+   96  docker stop f2b2
+   97  docker container run -d --network host --name host-apache httpd
+   98  docker container run -d --network host --name host-apache1 httpd
+   99  docker ps
+  100  docker network inspect host
+  101  clear
+  102  ip a
+  103  history
+  104  clear
+  105  docker network create my_app_net
+  106  docke network ls
+  107  docker network ls
+  108  docker network inspect my_app_net
+  109  clear
+  110  history
+  111  docker container run -d --name new_apache --network my_app_net httpd\
+  112  docker container run -d --name new_apache --network my_app_net httpd
+  113  docker network ls
+  114  docker network inspect my_app_net
+  115  history
+  116  clear
+  117  docker ps
+  118  clear
+  119  docker network create dude
+  120  docket netwokr ls
+  121  docker network ls
+  122  docker container run -d --net dude --net-alias search elasticsearch:2
+  123  docker ps
+  124  docker top
+  125  docker top f31227034162
+  126  docker ps
+  127  docker container inspect 73204
+  128  docker ps
+  129  docker container run -d --net dude --net-alias search --name test elasticsearch:2
+  130  docker ps
+  131  docker container run -d --net dude --net-alias search --name test elasticsearch:2
+  132  docker container run --rm --net dude centos curl -s search:9200
+  133  docker ps
+  134  docker ps
+  135  docker container run --rm --net dude centos curl -s search:9200
+  136  docker container run --rm centos curl -s search:9200
+  137  history
+  138  docker container run --rm --net dude centos curl -s search:9200
+  139  docker ps
+  140  docker container run --rm --net dude centos curl -s search:9200
+  141  clear
+  142  docker container run --rm --net dude centos curl -s search:9200
+  143  docker container run --rm --net dude alpine nslookup search
+  144  docker container run --rm --net dude alpine nslookup search:9200
+  145  docker container run --rm --net dude alpine nslookup search:9300
+  146  docker container run --rm --net dude alpine nslookup search
+  147  docker ps
+  148  docker container run --rm --net dude centos nslookup search
+  149  docker container run --rm --net dude debian nslookup search
+  150  docker container run --rm --net dude alpine nslookup search
+  151  docker network ls
+  152  history
+  153  docker container run -d --net dude --net-alias search elasticsearch
+  154  docker container run -d --net dude alpine search
+  155  docker container run -d --net dude alpine nslookup search
+  156  docker container run --rm --net dude alpine nslookup search 127.0.0.1
+  157  docker container run --rm --net dude alpine nslookup search 127.0.0.11
+  158  ip a
+  159  clear
+  160  docker container run --rm --net dude alpine nslookup search
+  161  docker container run --rm --net dude alpine nslookup search 127.0.0.11
+  162  hostname
+  163  docker container run --rm --net dude alpine nslookup search 127.0.0.11
+  164  docker container run -d --net dude --net-alias search elasticsearch
+  165  docker container run -d --net dude --net-alias search elasticsearch:2
+  166  docker container run --rm --net dude alpine nslookup search 127.0.0.11
+  167  clear
+  168  docker system prune
+  169  docker ps -a
+  170  clear
+  171  docker pull mysql
+  172  doccker image
+  173  dockeer image
+  174  docker image
+  175  docker image ls
+  176  clear
+  177  docker image
+  178  docker network
+  179  docker image inspect mysql
+  180  clear
+  181  docker container run -d --name mysql -e MYSQL_ALLOW_EMPTY_PASSWORD=true mysql
+  182  docker pull postgre
+  183  docker pull postgres
+  184  docker images
+  185  clear
+  186  docker ps
+  187  docker container inspect mysql
+  188  cd /var/lib/docker
+  189  ls
+  190  cd volumes/
+  191  ls
+  192  cd cca1e02a5525e281c68d3548ad20b702a15cb395b347b4e1844444b2726f03aa/
+  193  ls
+  194  cd _data
+  195  ls
+  196  pwd
+  197  clear
+  198  cd ..
+  199  docker volume ls
+  200  docker container run -d --name mysql -e MYSQL_ALLOW_EMPTY_PASSWORD=true -v mysql-db:/var/lib/mysql mysql
+  201  docker container run -d --name db -e MYSQL_ALLOW_EMPTY_PASSWORD=true -v mysql-db:/var/lib/mysql mysql
+  202  docker container run -d --name mysqldb -e MYSQL_ALLOW_EMPTY_PASSWORD=true -v mysql-db:/var/lib/mysql mysql
+  203  docker volume ls
+  204  docker volume inspect mysql-db
+  205  docker container ps
+  206  docker container inspect mysqldb | more
+  207  docker container run -d --name mysqldb1 -e MYSQL_ALLOW_EMPTY_PASSWORD=true -v mysql-db:/var/lib/mysql mysql
+  208  docker volume ls
+  209  docker volume inspect mysql-db
+  210  docker ps
+  211  docker container inpect mysqldb
+  212  docker ps
+  213  docker container inspect mysqldb
+  214  ls
+  215  docker ps
+  216  docker container inspect mysql
+  217  docker container run -d --name mysqldb2 -e MYSQL_ALLOW_EMPTY_PASSWORD=true -v mysql-db:/var/lib/mysql mysql
+  218  docker container ls
+  219  dockkker container inspect mysqldb2
+  220  docker container inspect mysqldb2
+  221  clear
+  222  docker container run -d --name psql -v psql:/var/lib/postgresql/data postgres:9.6.1
+  223  docker container log psql
+  224  docker container logs psql
+  225  clear
+  226  docker ps
+  227  docker container stop psql
+  228  docker ps
+  229  clear
+  230  docker container run -d --name psql2 -v psql:/var/lib/postgresql/data postgres:9.6.2
+  231  docker container run -d --name psql -v psql:/var/lib/postgresql/data postgres:9.6.2
+  232  docker ps
+  233  docker start psql
+  234  docker ps
+  235  docker container rm psql
+  236  docker container rm psql --force
+  237  docker container rm psql2 --force
+  238  docker volume ls
+  239  docker container run -d --name psql3 -v psql:/var/lib/postgresql/data postgres:9.6.3
+  240  clear
+  241  docker container run -d --name mysql -v psql:/var/lib/postgresql/data mysql
+  242  docker container run -d --name mysql4 -v mysql-db:/var/lib/postgresql/data mysql
+  243  docker ps
+  244  docker container log mysqldb
+  245  docker container logs mysqldb
+  246  docker ps
+  247  docker container exec -it mysqldb bash
+  248  docker ps
+  249  docker container inpect mysqldb
+  250  docker ps
+  251  docker container inspect mysqldb
+  252  docker ps
+  253  docker container inspect mysql
+  254  docker container run -d --name mysql9 -e MYSQL_ALLOW_EMPTY_PASSWORD=True mysql
+  255  docker ps
+  256  docker exec -it mysql9 bash
+  257  docker ps
+  258  docker container inspect mysql9
+  259  docker container rm mysql9 --force
+  260  docker container run -d --name mysql9 -e MYSQL_ALLOW_EMPTY_PASSWORD=True -v mysql-db:/var/lib/mysql mysql
+  261  docker ps
+  262  docker container inspect mysql9
+  263  docker volume ls
+  264  docker exec -it mysql9 bash
+  265  docker container logs mysql9
+  266  clear
+  267  docker ps
+  268  shutdown -h now
+  269  docker swarm init
+  270  docker node ls
+  271  ip a
+  272  ssh root@192.168.133.134
+  273  ping 192.168.133.134
+  274  docker ps
+  275  service iptables status
+  276  service firewalld status
+  277  service firewalld stop
+  278  chkconfig firewalld off
+  279  ssh root@192.168.133.134
+  280  exit
+  281   ls
+  282  docker node ls
+  283  time
+  284  date
+  285  yum install ntp
+  286  service ntpd start
+  287  date
+  288  docker node ls
+  289  service disable firewalld
+  290  service firewalld stop
+  291  chkconfig firewalld off
+  292  systemctl stop firewalld
+  293  systemctl disable firewalld
+  294  docker swarm init
+  295  docker swarm leave
+  296  docker swarm join-token manager
+  297  yum install ntpd
+  298  date
+  299  docker node ls
+  300  clear
+  301  docker service ps helloworld
+  302  docker service rm helloworld
+  303  docker service create --replicas 3 --name redis --update-delay 10s redis:3.0.6
+  304  docker service inspect --pretty redis
+  305  docker service update --image redis:3.0.7 redis
+  306  docker service ps redis
+  307  clear
+  308  docker node ls
+  309  docker node update --avaibility drain centos03
+  310  docker node update --availability drain centos03
+  311  docker node ls
+  312  docker node inspect --pretty centos03
+  313  docker node update --availability active centos03
+  314  docker node inspect --pretty centos03
+  315  docker node ls
+  316  docker node update --available drain centos02
+  317  docker node update --availabiility drain centos02
+  318  docker node update --availability drain centos02
+  319  docker swarm join-token manager
+  320  docker node ls
+  321  service docker stop
+  322  docker ps
+  323  service docker start
+  324  clear
+  325  ls
+  326  docker ps
+  327  clear
+  328  mkdir helloworldapp
+  329  cd helloworldapp/
+  330  vi HelloWorld.java
+  331  cat HelloWorld.java 
+  332  javac HelloWorld.java 
+  333  yum install java-1.8.0-openjdk
+  334  yum install java-1.8.0-openjdk-devel
+  335  clear
+  336  ls
+  337  history
+  338  cat HelloWorld.java
+  339  javac HelloWorld.java 
+  340  ls
+  341  vi manifest.txt
+  342  cat manifest.txt 
+  343  jar cfm Helloworld.jar manifest.txt HelloWorld.class 
+  344  ls
+  345  java -jar Helloworld.jar 
+  346  ls
+  347  vi Dockerfile
+  348  cat Dockerfile 
+  349  docker build -t helloworld .
+  350  docker images
+  351  cat Dockerfile 
+  352  docker run helloworld
+  353  vi Dockerfile 
+  354  docker run helloworld
+  355  docker build -t helloworld .
+  356  docker run helloworld
+  357  docker image 
+  358  docker image save 
+  359  docker image save helloworld > hello.tar
+  360  ls
+  361  docker login
+  362  ls
+  363  docker images
+  364  docker tag 
+  365  docker tag 32af0101b17a gopal1409/helloworld
+  366  docker images
+  367  docker push gopal1409/helloworld
+  368  docker login
+  369  docker image
+  370  docker images
+  371  ls
+  372  vi Dockerfile 
+  373  docker node ls
+  374  clear
+  375  docker node ls
+  376  docker swarm join-token
+  377  docker swarm join-token worker
+  378  docker node ls
+  379  clear
+  380  docker service create --replicas 1 --name helloworld alpine ping docker.com
+  381  docker service ls
+  382  docker service create --replicas 1 --name helloworld1 alpine ping google.com
+  383  docker service ls
+  384  docker service inspect --pretty helloworld
+  385  docker service inspect helloworld
+  386  clear
+  387  docker service ps helloworld
+  388  docker service scale helloworld=5
+  389  docker service ps helloworld
+  390  hostnamectl set-hostname centos01
+  391  bash
+  392  clear
+  393  ip a
+  394  clear
+  395  cat <<EOF > /etc/yum.repos.d/kubernetes.repo
+  396  [kubernetes]
+  397  name=Kubernetes
+  398  baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-\$basearch
+  399  enabled=1
+  400  gpgcheck=1
+  401  repo_gpgcheck=1
+  402  gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+  403  exclude=kubelet kubeadm kubectl
+  404  EOF
+  405  setenforce 0
+  406  sed -i 's/^SELINUX=enforcing$/SELINUX=permissive/' /etc/selinux/config
+  407  yum install -y kubelet kubeadm kubectl --disableexcludes=kubernetes
+  408  systemctl enable --now kubelet
+  409  systemctl daemon-reload
+  410  systemctl restart kubelet
+  411  history
+  412  ssh root@192.168.133.137
+  413  clear
+  414  kubeadm init
+  415  swapoff -a
+  416  kubeadm init
+  417  mkdir -p $HOME/.kube
+  418    sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+  419    sudo chown $(id -u):$(id -g) $HOME/.kube/config
+  420  ssh root@192.168.133.137
+  421  clear
+  422  kubectl get nodes
+  423  history
+  424  kubectl get nodes
+  425  kubectl get pods --all-namespaces
+  426  kubectl get ns
+  427  kubectl get pod
+  428  $ kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 | tr -d '\n')"
+  429  kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 | tr -d '\n')"
+  430  kubectl get nodes
+  431  kubectl get pods --all-namespaces
+  432  kubectl get nodes
+  433  kubectl get ns
+  434  vi namespace.yaml
+  435  kubectl create -f namespace.yaml 
+  436  vi namespace.yaml 
+  437  kubectl create -f namespace.yaml 
+  438  kubectl get ns
+  439  kubectl describe namesapces development
+  440  kubectl describe ns development
+  441  kubectl create ns prod
+  442  kubectl get ns
+  443  kubectl describe ns prod
+  444  kubectl delete ns prod
+  445  kubetl edit ns development
+  446  kubectl edit ns development
+  447  docker ps
+  448  clear
+  449  kubectl get nodes
+  450  kubectl get pod
+  451  kubectl autoscale deployment.v1.apps/nginx-deployment --min=10 --max=15 --cpu-percent=80
+  452  kubectl describe deployment
+  453  kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.0/aio/deploy/recommended.yaml
+  454  kubectl get pod --all-namespaces
+  455  kubectl proxy
+  456  vi user.yaml
+  457  kubectl apply -f user.yaml 
+  458  vi token.yaml
+  459  kubectl apply -f token.yaml 
+  460  kubectl -n kubernetes-dashboard describe secret $(kubectl -n kubernetes-dashboard get secret | grep admin-user | awk '{print $1}')
+  461  kubectl proxy
+  462  kubectl get pod --all-namespaces
+  463  kubectl proxy
+  464  ip a
+  465  service firewalld status
+  466  reboot
+  467  vi pod.yaml
+  468  kubectl apply -f pod.yaml 
+  469  kubectl get pod
+  470  kubectl describe pod
+  471  clear
+  472  kubectl get pod
+  473  kubectl describe pod
+  474  kubectl get nodes
+  475  kubectl create -f pod.yaml
+  476  clear
+  477  kubectl get pod
+  478  kubectl describe pod
+  479  kubectl get pod
+  480  kubectl describe pod
+  481  kubectl get pod
+  482  cat pod.yaml 
+  483  vi deployment.yaml
+  484  kubectl create -f deployment.yaml 
+  485  vi deployment.yaml
+  486  kubectl create -f deployment.yaml 
+  487  kubectl get pods
+  488  kubectl get deployment
+  489  kubectl rollout status deployment.v1.apps/nginx-deployment
+  490  kubectl get rs
+  491  kubectl get pods --show-labels
+  492  history
+  493  kubectl get pods --show-labels
+  494  vi deployment.yaml 
+  495  kubectl create -f deployment.yaml 
+  496  kubectl get deployment.yaml 
+  497  kubectl get deployment
+  498  kubectl get pods --show-labels
+  499  kubectl rollout status deployment.v1.apps/nginx-deployment
+  500  vi deployment.yaml 
+  501  kubectl create -f deployment.yaml 
+  502  kubectl delete -f deployment.yaml 
+  503  kubectl create -f deployment.yaml 
+  504  kubectl rollout status deployment1.v1.apps/nginx-deployment
+  505  kubectl rollout status deployment.v1.apps/nginx-deployment1
+  506  kubectl delete -f deployment.yaml 
+  507  kubectl get deployment
+  508  kubectl set image deployment/nginx-deployment nginx=nginx:1.6.1 --record
+  509  cat deployment.yaml 
+  510  kubectl edit deployment.v1.apps/nginx-deployment
+  511  kubectl rollout status deployment.v1.apps/nginx-deployment1
+  512  kubectl rollout status deployment.v1.apps/nginx-deployment
+  513  kubectl get rs
+  514  kubectl rollout history deployment.v1.apps/nginx-deployment
+  515  kubectl set image deployment/nginx-deployment nginx=nginx:1.61 --record
+  516  kubectl set image deployment/nginx-deployment nginx=nginx:1.16.1 --record
+  517  kubectl rollout history deployment.v1.apps/nginx-deployment
+  518  kubectl get pod
+  519  kubectl set image deployment/nginx-deployment nginx=nginx:1.162 --record
+  520  kubectl get pod
+  521  kubectl rollout history deployment.v1.apps/nginx-deployment
+  522  kubectl rollout history deployment.v1.apps/nginx-deployment --revision=5
+  523  clear
+  524  history
+  525  kubectl scale deployment.v1.apps/nginx-deployment --replicas=10
+  526  kubect get deployment
+  527  kubectl get deployment
+  528  kubectl get rs
+  529  history
+  530  kubectl describe deployment
+  531  history
+  532  kubectl rollout undo deployment.v1.apps/nginx-deployment --revision=5
+  533  kubectl rollout undo deployment.v1.apps/nginx-deployment
+  534  kubectl describe deployment
+  535  clear
+  536  history
+  537  docker images
+  538  clear
+  539  history
+  540  kubectl proxy
+  541  kubectl -n kubernetes-dashboard describe secret $(kubectl -n kubernetes-dashboard get secret | grep admin-user | awk '{print $1}')
+  542  kubectl get pod --all-namespaces
+  543  kubectl get pod
+  544  vi /etc/fstab 
+  545  reboot
+  546  helm
+  547  exit
+  548  cd /usr/local/bin
+  549  ls
+  550  rm helm 
+  551  cd /home/centos01/Downloads/
+  552  ls
+  553  tar xvf helm-v3.2.0-linux-amd64.tar.gz 
+  554  mv linux-amd64/helm /usr/local/bin/
+  555  helm
+  556  bash
+  557  exit
+  558  kubectl -n kubernetes-dashboard describe secret $(kubectl -n kubernetes-dashboard get secret | grep admin-user | awk '{print $1}')
+  559  kubectl proxy
+  560  yum install maven
+  561  cd /home
+  562  ls
+  563  cd centos01/
+  564  ls
+  565  cd Downloads/
+  566  ls
+  567  tar xvf helm-v3.2.0-linux-amd64.tar.gz 
+  568  ls
+  569  pwd
+  570  cd linux-amd64/
+  571  ls
+  572  sudo mv helm /usr/local/bin
+  573  helm version
+  574  bash
+  575  exit
+  576  helm
+  577  /home/centos01/Downloads/
+  578  cd /home/centos01/Downloads/
+  579  ls
+  580  helm
+  581  tar xvf helm-v3.2.0-linux-amd64.tar.gz 
+  582  mv helm /usr/local/bin
+  583  mv linux-amd64/helm /usr/local/bin/
+  584  helm
+  585  bash
+  586  helm
+  587  ./helm
+  588  exit
+  589  ls
+  590  helm
+  591  ls
+  592  cd /home/centos01/
+  593  ls
+  594  cd Downloads/
+  595  ls
+  596  tar xvf helm-v3.2.0-linux-amd64.tar.gz 
+  597  cd linux-amd64/
+  598  ls
+  599  ls -l
+  600  chmod 777 helm 
+  601  cp helm /usr/local/bin/
+  602  helm
+  603  cp helm /usr/bin/
+  604  helm
+  605  clear
+  606  helm
+  607  clar
+  608  clear
+  609  helm
+  610  exit
+  611  helm delete my-release
+  612  helm install   --name my-release   --set createAdminSecret=false   --set couchdbConfig.couchdb.uuid=decafbaddecafbaddecafbaddecafbad   couchdb/couchdb
+  613  helm install my-release   --set createAdminSecret=false   --set couchdbConfig.couchdb.uuid=decafbaddecafbaddecafbaddecafbad   couchdb/couchdb
+  614  kubectl exec --namespace default -it my-release-couchdb-0 -c couchdb --     curl -s     http://127.0.0.1:5984/_cluster_setup     -X POST     -H "Content-Type: application/json"     -d '{"action": "finish_cluster"}'     -u <adminUsername>
+  615  kubectl exec --namespace default -it my-release-couchdb-0 -c couchdb --     curl -s     http://127.0.0.1:5984/_cluster_setup     -X POST     -H "Content-Type: application/json"     -d '{"action": "finish_cluster"}'     -u adminUsername
+  616  kubectl exec --namespace default -it my-release-couchdb-0 -c couchdb -- curl -s http://127.0.0.1:5984/_cluster_setup -X POST -H "Content-Type: application/json" -d '{"action": "finish_cluster" -u adminUsername
+  617  kubectl exec --namespace default -it my-release-couchdb-0 -c couchdb -- curl -s http://127.0.0.1:5984/_cluster_setup -X POST -H "Content-Type: application/json" -d '{"action": "finish_cluster" -u <adminUsername>
+  618  helm delete my-release
+  619  helm install my-release1 --set createAdminSecret=false   --set couchdbConfig.couchdb.uuid=decafbaddecafbaddecafbaddecafbad   couchdb/couchdb
+  620  kubectl get pods --namespace default -l "app=couchdb,release=my-release1"
+  621  helm delete my-release1
+  622  kubectl get pods --namespace default -l "app=couchdb,release=my-release1"
+  623  clear
+  624  helm delete my-release1
+  625  helm repo update
+  626  helm install   --name my-release   --set couchdbConfig.couchdb.uuid=decafbaddecafbaddecafbaddecafbad   couchdb/couchdb
+  627  helm install my-release   --set couchdbConfig.couchdb.uuid=decafbaddecafbaddecafbaddecafbad   couchdb/couchdb
+  628  kubectl get pods --namespace default -l "app=couchdb,release=my-release"
+  629  kubectl exec --namespace default -it my-release-couchdb-0 -c couchdb --     curl -s     http://127.0.0.1:5984/_cluster_setup     -X POST     -H "Content-Type: application/json"     -d '{"action": "finish_cluster"}'     -u <adminUsername>
+  630  kubectl exec --namespace default -it my-release-couchdb-0 -c couchdb --     curl -s     http://127.0.0.1:5984/_cluster_setup     -X POST     -H "Content-Type: application/json"     -d '{"action": "finish_cluster"}'     -u adminUsername
+  631  ip a
+  632  ip a | more
+  633* 
+  634  service firewalld status
+  635  kubectl get pods --namespace default -l "app=couchdb,release=my-release"
+  636  $ kubectl get secret my-release-couchdb -o go-template='{{ .data.adminPassword }}' | base64 --decode
+  637   kubectl get secret my-release-couchdb -o go-template='{{ .data.adminPassword }}' | base64 --decode
+  638  $  kubectl create kubectl generic my-release-couchdb --from-literal=adminUsername=foo --from-literal=adminPassword=bar --from-literal=cookieAuthSecret=baz
+  639  kubectl create kubectl generic my-release-couchdb --from-literal=adminUsername=foo --from-literal=adminPassword=bar --from-literal=cookieAuthSecret=baz
+  640  helm repo list
+  641  helm repo list couchdb-helm
+  642  kubectl exec --namespace default -it my-release-couchdb-0 -c couchdb --     curl -s     http://127.0.0.1:5984/_cluster_setup     -X POST     -H "Content-Type: application/json"     -d '{"action": "finish_cluster"}'     -u adminUsername
+  643  kubectl get ssssssvc
+  644  kubectl get svc
+  645  kubectl exec --namespace default -it my-release-couchdb-0 -c couchdb --     curl -s     http://127.0.0.1:5984/_cluster_setup     -X POST     -H "Content-Type: application/json"     -d '{"action": "finish_cluster"}'     -u adminUsername
+  646  kubectl exec --namespace default -it my-release-couchdb-0 -c couchdb --     curl -s     http://127.0.0.1:5984/_cluster_setup     -X POST     -H "Content-Type: application/json"     -d '{"action": "finish_cluster"}'     -u <adminUsername>
+  647  kubectl exec --namespace default -it my-release-couchdb-0 -c couchdb --     curl -s     http://127.0.0.1:5984/_cluster_setup     -X POST     -H "Content-Type: application/json"     -d '{"action": "finish_cluster"}'     -u adminUsername
+  648  vi /etc/hosts
+  649  hostname
+  650  ping centos01
+  651  vi /etc/hosts
+  652  curl http://127.0.0.1:5984
+  653  kubectl gettt svc
+  654  kubectl get svc
+  655  kubectl edit svc my-release-svc-couchdb
+  656  kubectl get svc
+  657  helm upgrade my-release couchdb/couchdb
+  658  kubectl edit svc my-release-svc-couchdb
+  659  kubectl get svc
+  660  kubectl edit svc my-release-svc-couchdb
+  661  kubectl get svc
+  662  kubectl exec task-pv-pod bash
+  663  kubectl describe pod task-pv-pod
+  664  kubectl get nodes
+  665  df -h
+  666  clear
+  667  helm repo add couchdb https://apache.github.io/couchdb-helm
+  668  helm update repo
+  669  helm repo update
+  670  history
+  671  helm repo list
+  672  cd /home/centos01/
+  673  ls
+  674  cd Downloads/
+  675  ls
+  676  unzip couchdb-helm-master.zip 
+  677  ls
+  678  cd couchdb-helm-master/
+  679  ls
+  680  cd couchdb/
+  681  ls
+  682  helm install   --name my-release   --set createAdminSecret=false   --set couchdbConfig.couchdb.uuid=decafbaddecafbaddecafbaddecafbad   couchdb/couchdb
+  683  helm install my-release --set createAdminSecret=false   --set couchdbConfig.couchdb.uuid=decafbaddecafbaddecafbaddecafbad   couchdb/couchdb
+  684  helm install   --name my-release   --set couchdbConfig.couchdb.uuid=decafbaddecafbaddecafbaddecafbad   couchdb/couchdb
+  685  helm install  my-release   --set couchdbConfig.couchdb.uuid=decafbaddecafbaddecafbaddecafbad .
+  686  kubectl get pod
+  687  kubectl get svc
+  688  kubectl edit svc my-release-svc-couchdb 
+  689  kubectl get svc
+  690  kubectl get secret my-release-couchdb -o go-template='{{ .data.adminPassword }}' | base64 --decode
+  691  history > kubecommand.txt
