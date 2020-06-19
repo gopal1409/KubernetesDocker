@@ -1,0 +1,27 @@
+node {
+    stage('SCM Checkout'){
+        git 'https://github.com/javahometech/my-app'
+    }
+    stage('MVN Package'){
+        def mvnHome = tool name: 'localMaven', type: 'maven'
+        def mvnCMD = "${mvnHome}/bin/mvn"
+        sh "${mvnCMD} clean package"
+    }
+    stage ('Build Docker Image'){
+    sh 'docker build -t gopal1409/my-app:1.0.0 .'
+    }
+    stage('Push Docker Imgage'){
+     withCredentials([string(credentialsId: 'container p', variable: 'dockerHubPwd')]) {
+    sh 'docker login -u gopal1409 -p ${dockerHubPwd}'
+    }
+      sh 'docker push gopal1409/my-app:1.0.0'
+    }
+    stage('RUN Container on Dev Server'){
+        
+        def dockerRUn = 'docker run -p 8080:8080 -d -name myapp gopal1409/my-app:2.0.0'
+       sshagent(['dev-server']) {
+        sh 'ssh -o StrictHostKeyChecking=no root@192.168.233.129 ${dockerRun}'
+        }
+    }
+    
+}
