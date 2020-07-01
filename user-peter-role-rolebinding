@@ -1,0 +1,27 @@
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+    name: peter-acces 
+    namespace: mynamespace
+rules:
+- apiGroups: [""]
+  resources: ["pod"]
+  verbs: ["get","watch","list","create"]
+- apiGroups: ["","extensions","apps"]
+  resources: ["deployment"]
+  verbs: ["get","list","watch","create","delete"]
+---
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+    name: peter-role-binding 
+    namespace: mynamespace
+subjects:
+- kind: User
+  name: peter 
+  namespace: mynamespace
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+    kind: Role
+    name: peter-access
+    apiGroup: rbac.authorization.k8s.io
