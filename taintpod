@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Pod
+metadata:
+    name: nginx
+    labels:
+        env: test
+spec:
+    containers:
+        - name: nginx
+          image: nginx
+    tolerations:
+        - key: "example-key"
+          operator: "Exists"
+          effect: "NoSchedule"
