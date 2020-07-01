@@ -1,0 +1,63 @@
+...
+apiVersion: v1
+kind: Namespace 
+metadata:
+    name: mynamespace
+---
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+    name: developer-acces 
+    namespace: mynamespace
+rules:
+- apiGroups: [""] #it indicate the API group
+  resources: ["pod"]
+  verbs: ["get","watch","list","create"]
+- apiGroups: ["","extensions","apps"]
+  resources: ["deployment"]
+  verbs: ["get","list","watch","create","delete"]
+---
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+    name: developer-RoleBinding
+    namespace: mynamespace
+subjects:
+- kind: User
+  name: peter 
+  namespace: mynamespace
+  apiGroup: rbac.authorization.k8s.io
+- kind: User
+  name: sonja   
+  namespace: mynamespace
+  apiGroup: rbac.authorization.k8s.io
+
+roleRef: #specific the binding to a role/Clusterrole
+    kind: Role
+    name: developer-access
+    apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: nginx-deployment 
+    namespace: mynamespace
+    labels:
+        app: nginx
+spec:
+    replicas: 3
+    selector:
+        matchLabels:
+            app: nginx
+    template:
+        metadata:
+            labels:
+                app: nginx
+        spec:
+            containers:
+                - name: k8s-demo 
+                  image: nginx
+                  ports:
+                    - name: nginx-port 
+                      containerPort: 8080
+                      
