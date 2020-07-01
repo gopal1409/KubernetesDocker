@@ -1,0 +1,65 @@
+  298  kubectl apply -f noejswebservice.yaml
+  299  kubectl get svc
+  300  history
+  301  kubectl get pod
+  302  kubectl exec -it database bash
+  303  apt install openssl
+  304  yum install openssl
+  305  openssl genrsa -out peter.pem 2048
+  306  openssl -req -new -key peter.pem -out peter-csr.pem -subj "/CN-peter/0-myteam"
+  307  openssl -req -new -key peter.pem -out peter-csr.pem -subj "/CN-peter/O-myteam"
+  308  openssl req -new -key peter.pem -out peter-csr.pem -subj "/CN-peter/O-myteam"
+  309  openssl req -new -key peter.pem -out peter-csr.pem -subj "/CN-peter/0-myteam"
+  310  openssl req -new -key peter.pem -out peter-csr.pem -subj "/CN=peter/O-myteam"
+  311  ls
+  312  openssl req -new -key peter.pem -out peter-csr.pem -subj "/CN=peter/ O=myteam/"
+  313  openssl x509 -req -in peter-csr.pem -CA ca.crt -CAkey ca.key - CAcreateserial -out peter.crt -days 10000
+  314  ls
+  315  openssl -x509 -req -in peter-csr.pem -CA ca.crt -CAkey ca.key - CAcreateserial -out peter.crt -days 10000
+  316  openssl -req -x509 -in peter-csr.pem -CA ca.crt -CAkey ca.key - CAcreateserial -out peter.crt -days 10000
+  317  openssl -req x509 -in peter-csr.pem -CA ca.crt -CAkey ca.key - CAcreateserial -out peter.crt -days 10000
+  318  openssl req x509 -in peter-csr.pem -CA ca.crt -CAkey ca.key - CAcreateserial -out peter.crt -days 10000
+  319  openssl x509 -req -in peter-csr.pem -CA ca.crt -CAkey ca.key -CAcreateserial -out peter.crt -days 10000
+  320  ls
+  321  mv peter*.* /home/
+  322  cd /home
+  323  ls
+  324  openssl x509 -req -in peter-csr.pem -CA ca.crt -CAkey ca.key -CAcreateserial -out peter.crt -days 10000
+  325  cd /etc/kubernetes/pki/
+  326  ls
+  327  mv /home/peter*.* /etc/kubernetes/pki/
+  328  openssl x509 -req -in peter-csr.pem -CA ca.crt -CAkey ca.key -CAcreateserial -out peter.crt -days 10000
+  329  history
+  330  mv peter*.* /etc/kubernetes/pki
+  331  kubectl config set-credential peter --client-certificate=peter.crt --client-key=peter.pem
+  332  kubectl config set-credentials peter --client-certificate=peter.crt --client-key=peter.pem
+  333  kubectl cluster0info
+  334  kubectl cluster-info
+  335  kubectl config view
+  336  history
+  337  kubectl config view
+  338  kubectl config set-context peter --cluster=kubernetes --user peter
+  339  kubectl get pod
+  340  history
+  341  kubectl config get-context
+  342  kubectl config get-contexts
+  343  kubectl config use-context peter
+  344  kubectl config get-contexts
+  345  kubectl get nodes
+  346  kubectl config use-context kubernetes-admin@kubernetes
+  347  kubectl config use-context peter
+  348  kubectl get pod
+  349  kubectl get deployment
+  350  kubectl get deployment --namespace=mynamespace
+  351  kubectl get pod --namespace=mynamespace
+  352  kubectl config use-context kubernetes-admin@kubernetes
+  353  ls
+  354  vi peter.yaml
+  355  kubectl apply -f peter.yaml
+  356  vi peter.yaml
+  357  kubectl apply -f peter.yaml
+  358  kubectl get pod
+  359  cat peter.yaml
+  360  kubectl delete deployment nginx-deployment
+  361  kubectl delete deployment --namespace  nginx-deployment
+  362  history
