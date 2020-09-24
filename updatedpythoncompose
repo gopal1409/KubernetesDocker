@@ -1,0 +1,41 @@
+version: '3'
+
+# Run as
+# docker-compose build; docker-compose up -d
+# Check with
+# docker ps
+# Then check the logs with
+# docker logs --tail 50 $service_name
+# docker-compose images
+# docker-compose logs --tail 20 service_name
+
+services:
+
+  mongo:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: password
+    networks:
+      - app-tier
+    volumes:
+      # Sample data comes from:
+      # https://github.com/mistertandon/node-express-hbs/blob/master/movies_collection.json
+      - ./mongo:/docker-entrypoint-initdb.d
+
+  python_app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - mongo
+    networks:
+      - app-tier
+    command:
+      tail -f /dev/null
+
+
+networks:
+  app-tier:
+    driver: bridge
