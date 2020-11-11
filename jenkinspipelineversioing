@@ -1,0 +1,402 @@
+What is the Problem With Maven Release Plugin
+Maven release plugin is created years before people started realizing that software production has to become smoother and continuous. Main problems with the plugin includes:
+
+It is not atomic. If release goal fails for some stupid reason, you have committed and broken poms.
+It spoils the commit history, making it unreadable if you want to have frequent releases.
+It is very opinonated on various things and tries to own multiple responsibilities (managing versions, committing stuff, creating tags etc) Your flows does not have to comply with how release plugin sees the world.
+Now let’s look at another approach that works much nicer with CD. First, we need to define few key principles:
+
+Few Principles For Continuous Delivery
+A regular build is no different than a release build. What makes a release special is how we see it.
+No human intervention should be required. All decisions can be calculated automatically. If you have parameters that can not be automated, it is wrong.
+If you have multiple branches for some reason, have a dedicated build job for each one of them, in order to see and manage the current branch status easily.
+Branch builds must enforce building from the top, never to be parameterized for building custom changesets.
+I mention branches, but avoid having them as much as possible in the first place.
+Avoid having continuous delivery before making code reviews enforced by the build system.
+Block code merges to branches except for the build user
+Block artifact deployments except for the build user
+Make it possible to start everything completely from scratch
+Do not have any snapshot dependency
+Do not use version ranges in dependencies, because it prevents reproducable builds
+Keep most logic inside maven to keep it reusable everywhere, without need of a build server. Your Jenkinsfile (or whatever you use) should be very similar to running same steps from command line. This also makes much easier to change build environment without having to re-implement a lot of stuff.
+Do not rely on internet to build your software. Maintain proxying caches for everything you need.
+Jenkins Declarative Pipelines
+We will use declarative pipeline of Jenkins to define the build flow. It allows us to use basic but common building blocks to define whole build/release process. Skeleton of a pipeline looks like this:
+
+ 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+pipeline {
+  agent { label 'label_for_build_agent' }
+  options {
+  }
+  parameters {
+      // e.g: passing -X in order to debug something during the build
+      string(name: 'MAVEN_OPTIONS')
+  }  
+  environment {
+      JAVA_OPTS='-Xsomething=something'
+  }
+  trigger {
+   // How your build is going to get triggered
+   // For branch builds, the only trigger must be merge operation on that branch.   
+  }
+  stages {
+      // All your build flow will come here    
+  }
+  post {
+      // Place for defining actions in case of success/failure/unstable builds. 
+  }
+}
+All the magic will happen in stages. This is a single pipeline that has no relation to other pipelines.
+
+You can have a spider web of pipelines obviously, but it complicates the management and debugging which you should not risk your time wasting on it unless it is unavoidable.
+
+While using pipelines, it is better to make stages indicate logical state of the build. I personally try to avoid using scripted pipeline for a few reasons:
+
+Jenkins Blue Ocean needs declarative pipeline
+Scripted pipeline tricks you to break the abstractions and write ad-hoc code here and there to make quick fixes to the build, rather than doing them in correct places.
+It is not as safe as relying only on the simplicty of declarative pipeline commands and sh blocks in terms of forward compatibility.
+Unfortunately, Jenkins does not allow us to define top level parts of declarative pipeline from libraries. For example, it is not possible to totally omit options, parameters and environment and fetch it from library. Declarative pipeline has to exist as a single block with no interruption. Still, you can define steps inside libraries.
+
+For the moment, we have one point left to decide:
+
+What About Versioning During CD ?
+One of the first questions in continuous delivery when coming from traditional maven release plugin is to decide how to set versions.
+
+Why ?
+
+Since every merge to your branch will result a new delivery that may or may not get in to production, it will need a unique version.
+
+In most cases, running maven release plugin is an explicit decision either by people or some automated logic, but it is almost never “at every single merge”. There may be hundreds of commits, but the version is bumped based on some logic.
+
+This may or may not fit directly to CD since you will have your last version digit getting incremented at every merge. It is not a concern at all if your software is consumed internally.
+
+However, if it is consumed by your clients, they will be confused with numbers increasing crazily. You will want to establish a mutual, clear, communicated understanding of what your version indicates (eg: semantic versioning)
+
+Sometimes, marketing can even interfere with this. (eg: by trying to prefix versions with year because it is so trendy and everyone else not doing it are dinosaurs)
+
+If you decide increasing major, minor, patch numbers based on a logic not related to merges, you will need to use qualifiers to generate unique versions.
+
+At this point you have a couple of quick options:
+
+Using timestamps up to seconds granularity
+Using Jenkins build number (automatically increased by Jenkins)
+The important point here is to make sure that version comparison results in correct logical order becase maven has strict and well defined rules for versioning.
+
+If you want to quickly test your hypothetical versioning scheme is not broken, you can directly use maven to make tests:
+
+java -jar /usr/local/Cellar/maven/3.5.2/libexec/lib/maven-artifact-3.5.2.jar 1.2.3-20180209010130 1.2.3-20180209010135
+Display parameters as parsed by Maven (in canonical form) and comparison result:
+1. 1.2.3-20180209010130 == 1.2.3-20180209010130
+   1.2.3-20180209010130 < 1.2.3-20180209010135
+2. 1.2.3-20180209010135 == 1.2.3-20180209010135
+So, we are done with versioning, right ?
+
+May be not. Here is the next question.
+
+How to Trace Back to Git Revisions Using Versions ?
+When you use maven release plugin in a traditional way, you have much less releases than your code merges and all your releases have associated tags, which makes very trivial to check out the specific released code. But how are you going to easily find what 1.2.3-20180209010130 stands for ? Of course you can dive in to build logs to see the actual checked out revision but it is agonizingly pointless to spend time on that.
+
+If you keep creating tags in CD, you either have to do it for every merge or you have to record the revision somewhere and use that revision to create a tag when the build actually goes in to production.
+
+The first one ends you up with tags as many as merge commits. Definitely ugly. The second one requires you add extra moving parts to the build maintenance. I do not like that too.
+
+Third option might be appending revision to the version. For git, we can do it like:
+
+git rev-parse --short HEAD
+The catch here is, if you use only short revision, the ordering will be broken, therefore you need to prefix it either with build number or timestamp or something that increments.
+
+The downside of the third option is, your version string may become a bit too long, like 1.2.3-20180209010130.a1b2c3
+
+However, it is extremely trivial to checkout the code under question with this.
+
+Now lets continue to the build
+
+Jenkins Stages
+ 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+stages {
+
+  // No checkout stage ? That is not required for this case 
+  // because Jenkins will checkout whole repo that contains Jenkinsfile, 
+  // which is also the tip of the branch that we want to build
+
+  stage ('Build') {
+    steps {
+      // For debugging purposes, it is always useful to print info 
+      // about build environment that is seen by shell during the build
+      sh 'env'      
+      sh """
+        SHORTREV=`git rev-parse --short HEAD`
+      """
+      script {
+            def pom = readMavenPom file: 'pom.xml'            
+            // Now you have access to raw version string in pom.version
+            // Based on your versioning scheme, automatically calculate the next one            
+            VERSION = pom.version.replaceAll('SNAPSHOT', BUILD_TIMESTAMP + "." + SHORTREV)
+      }      
+      // We never build a SNAPSHOT
+      // We explicitly set versions.
+      sh """
+          mvn -B org.codehaus.mojo:versions-maven-plugin:2.5:set -DprocessAllModules -DnewVersion=${VERSION}  $MAVEN_OPTIONS
+      """
+      sh """
+        mvn -B clean compile $MAVEN_OPTIONS
+      """
+    }
+  
+  stage('Unit Tests') {
+    // We have seperate stage for tests so 
+    // they stand out in grouping and visualizations
+    steps {
+      sh """
+        mvn -B test $MAVEN_OPTIONS
+      """
+    }
+    // Note that, this requires having test results. 
+    // But you should anyway never skip tests in branch builds
+    post {
+      always {
+        junit '**/target/surefire-reports/*.xml'
+      }
+    }    
+  }
+  
+  stage('Integration Tests') {
+    steps {
+      sh """
+        mvn -B integration-test $MAVEN_OPTIONS
+      """
+    }
+    post {
+      always {
+        junit '**/target/failsafe-reports/*.xml'
+      }
+    }    
+  }
+
+  stage('Deploy') {
+    steps {
+      // Finally deploy all your jars, containers, 
+      // deliverables to their respective repositories
+      sh """
+        mvn -B deploy
+      """
+    }
+  }
+}
+There is still a problem here. Integration tests may require access to generated deliverables in order to test them. However deploy is the last lifecycle. Therefore, you may need to change the ordering such as:
+
+ 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+  
+  stage('Deploy') {
+    steps {
+      sh """
+        mvn -B deploy -DskipTests 
+      """
+    }
+  }
+  stage('Integration Tests') {
+    steps {
+      sh """
+        mvn -B integration-test $MAVEN_OPTIONS
+      """
+    }
+    post {
+      always {
+        junit '**/target/failsafe-reports/*.xml'
+      }
+    }    
+  }
+Still a problem exists, right ?
+
+What if integration tests fail ? You had deployed stuff already. How is this even possible ? See following git log (drawn by gitgraph.js) for example:
+
+git
+
+Even though Alice’s changes are verified correctly based on its own parent and merges fine with Bob’s change, together they can cause failure in tests.
+
+You can enforce rebase during reviews to avoid this as much as possible.
+
+How to Prevent Repository Pollution During CD ?
+Repository pollution is a real problem. Bigger repository you have, better infrastructure and baby sitting will you need in order to provide decent I/O performance. Again there are multiple ways to have control on this.
+
+Using Maven Deploy Options To Deploy Different Repositores
+Maven deploy plugin allows us to use alternate deployment repositories from the commandline and that is our solution. You can define target locations based on the nature of the build.
+
+If you manage containers and images via docker-maven-plugin in your build, it also supports setting different registries via command line. This allows us to change destinations at each step.
+
+ 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+  
+  stage('Deploy Staging') {
+    steps {
+      // We deploy to staging repositories for further integration tests
+      sh """
+        mvn -B deploy -DskipTests -DretryFailedDeploymentCount=5 -DaltDeploymentRepository=myrepo::default::https://my.staging.maven.repo -Ddocker.push.registry=https://my.staging.docker.registry
+      """
+    }
+  }
+  stage('Integration Tests') {
+    steps {
+      sh """
+        mvn -B integration-test $MAVEN_OPTIONS
+      """
+    }
+    post {
+      always {
+        junit '**/target/failsafe-reports/*.xml'
+      }
+    }    
+  }
+  stage('Deploy Official') {
+    steps {
+      sh """
+        mvn -B deploy -DskipTests -DretryFailedDeploymentCount=5 -DaltDeploymentRepository=myrepo::default::https://my.release.maven.repo -Ddocker.push.registry=https://my.release.docker.registry
+      """
+    }
+  }
+ 
+Now this looks better. During the integration tests, we consume artifacts from staging repositories that are supposed to be purged very frequently (daily ?). Once we are sure that our product has passed all the verifications, we deploy again, but this time towards real repository. But can we avoid pushing stuff twice ? Yes, sort of.
+
+Using Artifact Promotion Features of Binary Repository Management Systems
+Commercial solutions like JFrog Artifactory have features to “promote” build artifacts, which basically means moving an artifact from a repository to another. (eg: From staging to production, in case of successful build)
+
+Downsides of this:
+
+It is expensive, if that is a concern
+It requires using non-standard plugins/apis so it forces you to have a build code that actually includes a vendor lock-in. Personally I would rather stay neutral and compliant on well known interfaces.
