@@ -1,0 +1,27 @@
+#Section 1
+# all the communication to the kubernetes happen strictly through apis
+#kubectl apply -f yamlfilename
+apiVersion: apps/v1 #kubectl apply will execute this file from top to botton and left to right
+#this will invoke your apiversion apps/v1
+kind: Deployment #it will invoke the Deployment API
+metadata: #once it invoke the deployment api
+  name: mydeployment #using metadata we give the name of the deployment as
+  labels: #this deployment will have label
+    app: myapp
+#Section 2
+spec:
+  replicas: 3
+  selector: #
+    matchLabels: #will have an label match expression
+      app: myapp
+  template: #inside this template we will define the container creation process
+    metadata:
+      labels:
+        app: myapp
+  #Section 3 : 
+    spec: #specification about container whcih is going to be launc
+      containers:
+      - name: myapp # name of the container
+        image: piuma/phpsysinfo #container download from hub.docker
+        ports:
+        - containerPort: 80 #internal port where container is exposed
