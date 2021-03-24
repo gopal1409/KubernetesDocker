@@ -1,2 +1,3 @@
-116  kubectl edit svc kubernetes-dashboard --namespace=kubernetes-dashboard
-  117  kubectl get svc --all-namespaces
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.0/aio/deploy/recommended.yaml
+kubectl edit svc kubernetes-dashboard --namespace=kubernetes-dashboard
+kubectl get svc --all-namespaces
