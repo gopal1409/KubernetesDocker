@@ -1,0 +1,2 @@
+116  kubectl edit svc kubernetes-dashboard --namespace=kubernetes-dashboard
+  117  kubectl get svc --all-namespaces
