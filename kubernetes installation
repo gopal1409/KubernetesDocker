@@ -57,5 +57,26 @@ EOF
    14  sudo systemctl restart containerd
    15  sudo systemctl status containerd
    16  history
+   
+   Kubernetes in worker node
+    17  sudo systemctl status containerd
+   18  cat <<EOF | sudo tee /etc/modules-load.d/k8s.conf
+br_netfilter
+EOF
+
+   19  cat <<EOF | sudo tee /etc/sysctl.d/k8s.conf
+net.bridge.bridge-nf-call-ip6tables = 1
+net.bridge.bridge-nf-call-iptables = 1
+EOF
+
+   20  sudo sysctl --system
+   21  sudo apt-get update
+   22  sudo apt-get install -y apt-transport-https ca-certificates curl
+   23  sudo curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
+   24  echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
+   25  sudo apt-get update
+   26  sudo apt-get install -y kubelet kubeadm kubectl
+   27  sudo apt-mark hold kubelet kubeadm kubectl
+
 
 
