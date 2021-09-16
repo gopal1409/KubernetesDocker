@@ -28,3 +28,34 @@ EOF
 }
 EOF
 
+Worker Node Configuration
+
+
+    1  apt-get update
+    2  sudo apt-get install     apt-transport-https     ca-certificates     curl     gnupg     lsb-release
+    3  curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+    4  echo   "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
+  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+    5  apt-get update
+    6  cat <<EOF | sudo tee /etc/modules-load.d/containerd.conf
+overlay
+br_netfilter
+EOF
+
+    7  sudo modprobe overlay
+    8  sudo modprobe br_netfilter
+    9  cat <<EOF | sudo tee /etc/sysctl.d/99-kubernetes-cri.conf
+net.bridge.bridge-nf-call-iptables  = 1
+net.ipv4.ip_forward                 = 1
+net.bridge.bridge-nf-call-ip6tables = 1
+EOF
+
+   10  sudo sysctl --system
+   11  apt-get install containerd.io
+   12  sudo mkdir -p /etc/containerd
+   13  containerd config default | sudo tee /etc/containerd/config.toml
+   14  sudo systemctl restart containerd
+   15  sudo systemctl status containerd
+   16  history
+
+
