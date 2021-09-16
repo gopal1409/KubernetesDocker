@@ -77,6 +77,8 @@ EOF
    25  sudo apt-get update
    26  sudo apt-get install -y kubelet kubeadm kubectl
    27  sudo apt-mark hold kubelet kubeadm kubectl
+Intialized the master machine
+kubeadm init --pod-network-cidr=10.244.0.0/16
 
 
 
