@@ -102,6 +102,7 @@ systemctl restart docker
 Intialized the master machine
 kubeadm init --pod-network-cidr=10.244.0.0/16
 
-
+Fannel Network
+ 314  kubectl apply -f https://github.com/coreos/flannel/raw/master/Documentation/kube-flannel.yml
 
 
