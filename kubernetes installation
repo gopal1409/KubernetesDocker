@@ -27,6 +27,10 @@ EOF
   "storage-driver": "overlay2"
 }
 EOF
+mkdir -p /etc/systemd/system/docker.service.d
+
+systemctl daemon-reload
+systemctl restart docker
 
 Worker Node Configuration
 
