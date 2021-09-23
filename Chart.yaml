@@ -1,5 +1,14 @@
+ 672  cd /root
+  673  mkdir charts
+  674  cd charts/
+  675  mkdir my-nginx
+  676  cd my-nginx/
+  677  vi Chart.yaml
+  678  history
+root@ip-172-31-29-148:~/charts/my-nginx# ^C
+root@ip-172-31-29-148:~/charts/my-nginx# cat Chart.yaml
 apiVersion: v1
-name: my-nginx
+name: mg0nginx
 version: 0.1.0
 appVersion: 1.0
-description: my custom nginx chart
+description: My Custom Nginx
