@@ -31,6 +31,10 @@ mkdir -p /etc/systemd/system/docker.service.d
 
 systemctl daemon-reload
 systemctl restart docker
+ mkdir -p $HOME/.kube
+  sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+  sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
 
 Worker Node Configuration
 
