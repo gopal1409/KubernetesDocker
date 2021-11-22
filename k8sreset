@@ -18,6 +18,15 @@ kubectl get nodes
 kubectl get pod -o wide
 kubectl get pod --all-namespaces
 kubectl get nodes
+
+worker node reset
+kubeadm reset
+rm -rf /etc/cni/net.d
+rm -rf $HOME/.kube/config
+rm -rf /mnt/data
+mkdir /mnt/data
+run the join command you got it from master machine
+ 
  1007  kubectl apply -f pvc.yaml
  1008  kubectl apply -f pv.yaml
  1009  kubectl get pv
