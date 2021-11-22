@@ -1,0 +1,36 @@
+master machine reset
+kubeadm reset
+rm -rf /etc/cni/net.d
+ rm -rf $HOME/.kube/config
+systemctl destat docker
+systemctl restart docker
+systemctl restart kubelet
+kubeadm init --pod-network-cidr=192.168.0.0/16
+mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
+systemctl restart docker
+systemctl restart kubelet
+kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 | tr -d '\n')"
+ 
+ 1001  kubectl get pod
+ 1002  kubectl get nodes
+ 1003  kubectl get pod -o wide
+ 1004  kubectl get pod --all-namespaces
+ 1005  kubectl get nodes
+ 1006  ls
+ 1007  kubectl apply -f pvc.yaml
+ 1008  kubectl apply -f pv.yaml
+ 1009  kubectl get pv
+ 1010  kubectl get pvc
+ 1011  kubectl apply -f mysql.yaml
+ 1012  kubectl apply mysqlconfig.yaml
+ 1013  kubectl apply -f mysqlconfig.yaml
+ 1014  kubectl get configmap
+ 1015  kubectl apply -f mysqlsrv.yaml
+ 1016  kubectl get svc
+ 1017  kubectl apply -f frontend.yaml
+ 1018  kubectl get pod
+ 1019  kubectl logs usermgmt-webapp-cfd4c7-d5jzc
+ 1020  kubectl apply -f frontendservice.yaml
+ 1021  kubectl get svc
