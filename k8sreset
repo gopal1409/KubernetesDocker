@@ -26,19 +26,20 @@ rm -rf $HOME/.kube/config
 rm -rf /mnt/data
 mkdir /mnt/data
 run the join command you got it from master machine
- 
- 1007  kubectl apply -f pvc.yaml
- 1008  kubectl apply -f pv.yaml
- 1009  kubectl get pv
- 1010  kubectl get pvc
- 1011  kubectl apply -f mysql.yaml
- 1012  kubectl apply mysqlconfig.yaml
- 1013  kubectl apply -f mysqlconfig.yaml
- 1014  kubectl get configmap
- 1015  kubectl apply -f mysqlsrv.yaml
- 1016  kubectl get svc
- 1017  kubectl apply -f frontend.yaml
- 1018  kubectl get pod
- 1019  kubectl logs usermgmt-webapp-cfd4c7-d5jzc
- 1020  kubectl apply -f frontendservice.yaml
- 1021  kubectl get svc
+
+we will deploy our app 
+kubectl apply -f pv.yaml
+kubectl apply -f pvc.yaml
+kubectl get pv
+kubectl get pvc
+kubectl apply -f mysql.yaml
+kubectl apply mysqlconfig.yaml
+kubectl apply -f mysqlconfig.yaml
+kubectl get configmap
+kubectl apply -f mysqlsrv.yaml
+kubectl get svc
+kubectl apply -f frontend.yaml
+kubectl get pod
+kubectl logs usermgmt-webapp-cfd4c7-d5jzc
+kubectl apply -f frontendservice.yaml
+kubectl get svc
