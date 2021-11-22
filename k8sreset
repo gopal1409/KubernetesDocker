@@ -13,12 +13,11 @@ systemctl restart docker
 systemctl restart kubelet
 kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 | tr -d '\n')"
  
- 1001  kubectl get pod
- 1002  kubectl get nodes
- 1003  kubectl get pod -o wide
- 1004  kubectl get pod --all-namespaces
- 1005  kubectl get nodes
- 1006  ls
+kubectl get pod
+kubectl get nodes
+kubectl get pod -o wide
+kubectl get pod --all-namespaces
+kubectl get nodes
  1007  kubectl apply -f pvc.yaml
  1008  kubectl apply -f pv.yaml
  1009  kubectl get pv
