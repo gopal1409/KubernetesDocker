@@ -1,0 +1,19 @@
+ 206  apt install default-jdk
+  207  curl -fsSL https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo tee   /usr/share/keyrings/jenkins-keyring.asc > /dev/null
+  208  echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc]   https://pkg.jenkins.io/debian-stable binary/ | sudo tee   /etc/apt/sources.list.d/jenkins.list > /dev/null
+  209  sudo apt-get update
+  210  sudo apt-get install jenkins
+  211  apt-get install     ca-certificates     curl     gnupg     lsb-release
+  212  echo   "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
+  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+  213  apt-get update
+  214  apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin
+  215  apt install maven -y
+  216  /var/lib/jenkins/secrets/initialAdminPassword
+  217  cat/var/lib/jenkins/secrets/initialAdminPassword
+  218  cat /var/lib/jenkins/secrets/initialAdminPassword
+  219  mvn --version
+  220  usermod -aG docker jenkins
+  221  service jenkins restart
+  222  docker images
+  223  docker login
