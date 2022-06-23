@@ -1,0 +1,9 @@
+version: '3.3'
+services:
+  my-nginx-service:
+    container_name: my-firtst-container
+    image: nginx
+    cpus: 1.5
+    mem_limit: 2048m
+    ports:
+      - "8080:80"
